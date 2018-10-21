@@ -7,4 +7,16 @@
     <string name="main_saved_succesfully">Student saved successfully</string>
     <string name="main_error_saving">Error saving student</string>
     <!-- -->
+    <string name="activity_main_lblAvatar">Tom</string>
+    <string name="activity_main_lblName">Name</string>
+    <string name="activity_main_txtName">(name)</string>
+    <string name="activity_main_lblEmail">email</string>
+    <string name="activity_main_txtEmail">(email)</string>
+    <string name="activity_main_lblPhonenumber">Phone number</string>
+    <string name="activity_main_txtPhonenumber">(phone)</string>
+    <string name="activity_main_lblAddress">Address</string>
+    <string name="activity_main_txtAddress">(address)</string>
+    <string name="activity_main_lblWeb">Web</string>
+    <string name="activity_main_txtWeb">(url)</string>
+    <string name="activity_main_Description_imgAvatar">Avatar image</string>
 </resources>

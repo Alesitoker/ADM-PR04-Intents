@@ -1,20 +1,287 @@
 package es.iessaladillo.pedrojoya.pr04.ui.main;
 
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import es.iessaladillo.pedrojoya.pr04.R;
+import es.iessaladillo.pedrojoya.pr04.data.local.Database;
+import es.iessaladillo.pedrojoya.pr04.data.local.model.Avatar;
+import es.iessaladillo.pedrojoya.pr04.ui.avatar.AvatarActivity;
+import es.iessaladillo.pedrojoya.pr04.utils.IntentsUtils;
+import es.iessaladillo.pedrojoya.pr04.utils.KeyboardUtils;
+import es.iessaladillo.pedrojoya.pr04.utils.SnackbarUtils;
+import es.iessaladillo.pedrojoya.pr04.utils.ValidationUtils;
 
 @SuppressWarnings("WeakerAccess")
 public class MainActivity extends AppCompatActivity {
+
+    private TextView lblAvatar;
+    private ImageView imgAvatar;
+    private EditText txtName;
+    private EditText txtEmail;
+    private EditText txtPhonenumber;
+    private EditText txtAddress;
+    private EditText txtWeb;
+    private TextView lblName;
+    private TextView lblEmail;
+    private TextView lblPhonenumber;
+    private TextView lblAddress;
+    private TextView lblWeb;
+    private ImageView imgEmail;
+    private ImageView imgPhonenumber;
+    private ImageView imgAddress;
+    private ImageView imgWeb;
+    private Database database = Database.getInstance();
+    private final int RC_AVATAR = 12;
+    private Avatar avatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // TODO
+        initViews();
+    }
+
+    private void initViews() {
+        lblAvatar = ActivityCompat.requireViewById(this, R.id.lblAvatar);
+        imgAvatar = ActivityCompat.requireViewById(this, R.id.imgAvatar);
+        txtName = ActivityCompat.requireViewById(this, R.id.txtName);
+        txtEmail = ActivityCompat.requireViewById(this, R.id.txtEmail);
+        txtPhonenumber = ActivityCompat.requireViewById(this, R.id.txtPhonenumber);
+        txtAddress = ActivityCompat.requireViewById(this, R.id.txtAddress);
+        txtWeb = ActivityCompat.requireViewById(this, R.id.txtWeb);
+        lblName = ActivityCompat.requireViewById(this, R.id.lblName);
+        lblEmail = ActivityCompat.requireViewById(this, R.id.lblEmail);
+        lblPhonenumber = ActivityCompat.requireViewById(this, R.id.lblPhonenumber);
+        lblAddress = ActivityCompat.requireViewById(this, R.id.lblAddress);
+        lblWeb = ActivityCompat.requireViewById(this, R.id.lblWeb);
+        imgEmail = ActivityCompat.requireViewById(this, R.id.imgEmail);
+        imgPhonenumber = ActivityCompat.requireViewById(this, R.id.imgPhonenumber);
+        imgAddress = ActivityCompat.requireViewById(this, R.id.imgAddress);
+        imgWeb = ActivityCompat.requireViewById(this, R.id.imgWeb);
+
+        txtName.requestFocus();
+        avatarDefault();
+        changeFocus();
+        validateOnChange();
+        editorAction();
+        imgAvatar.setOnClickListener(v -> changeImg());
+        lblAvatar.setOnClickListener(v -> changeImg());
+        imgEmail.setOnClickListener(v -> sendEmail());
+        imgPhonenumber.setOnClickListener(v -> dialPhoneNumber());
+        imgAddress.setOnClickListener(v -> searchInMap());
+        imgWeb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                webSearch();
+            }
+        });
+    }
+
+    private void webSearch() {
+        Intent intent;
+        if (validateWeb()) {
+            intent = IntentsUtils.newWebSearch(txtWeb.getText().toString());
+            startActivity(intent);
+        }
+    }
+
+    private void searchInMap() {
+        Intent intent;
+        if (validateAddress()) {
+            intent = IntentsUtils.newSearchInMap(txtAddress.getText().toString());
+            startActivity(intent);
+        }
+    }
+
+    private void dialPhoneNumber() {
+        Intent intent;
+        if (validatePhonenumber()) {
+            intent = IntentsUtils.newDial(txtPhonenumber.getText().toString());
+            startActivity(intent);
+        }
+    }
+
+    private void sendEmail() {
+        Intent intent;
+        if (validateEmail()) {
+            intent = IntentsUtils.newEmail(txtEmail.getText().toString());
+            startActivity(intent);
+        }
+    }
+
+    private void validateOnChange() {
+        txtName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (txtName.getText().toString().isEmpty()) {
+                    txtName.setError(getString(R.string.main_invalid_data));
+                    lblName.setTextColor(getResources().getColor(R.color.colorError));
+                } else {
+                    lblName.setTextColor(getResources().getColor(R.color.colorBlack));
+                }
+            }
+        });
+        txtEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!ValidationUtils.isValidEmail(txtEmail.getText().toString())) {
+                    txtEmail.setError(getString(R.string.main_invalid_data));
+                    lblEmail.setTextColor(getResources().getColor(R.color.colorError));
+                    imgEmail.setEnabled(false);
+                } else {
+                    lblEmail.setTextColor(getResources().getColor(R.color.colorBlack));
+                    imgEmail.setEnabled(true);
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+        txtPhonenumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!ValidationUtils.isValidPhone(txtPhonenumber.getText().toString())) {
+                    txtPhonenumber.setError(getString(R.string.main_invalid_data));
+                    lblPhonenumber.setTextColor(getResources().getColor(R.color.colorError));
+                    imgPhonenumber.setEnabled(false);
+                } else {
+                    lblPhonenumber.setTextColor(getResources().getColor(R.color.colorBlack));
+                    imgPhonenumber.setEnabled(true);
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+        txtAddress.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (txtAddress.getText().toString().isEmpty()) {
+                    txtAddress.setError(getString(R.string.main_invalid_data));
+                    lblAddress.setTextColor(getResources().getColor(R.color.colorError));
+                    imgAddress.setEnabled(false);
+                } else {
+                    lblAddress.setTextColor(getResources().getColor(R.color.colorBlack));
+                    imgAddress.setEnabled(true);
+                }
+            }
+        });
+        txtWeb.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!ValidationUtils.isValidUrl(txtWeb.getText().toString())) {
+                    txtWeb.setError(getString(R.string.main_invalid_data));
+                    lblWeb.setTextColor(getResources().getColor(R.color.colorError));
+                    imgWeb.setEnabled(false);
+                } else {
+                    lblWeb.setTextColor(getResources().getColor(R.color.colorBlack));
+                    imgWeb.setEnabled(true);
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    private void editorAction() {
+        txtWeb.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                save();
+                return true;
+            }
+            return false;
+        });
+        KeyboardUtils.hideSoftKeyboard(this);
+    }
+
+    private void changeFocus() {
+        txtName.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                lblName.setTypeface(Typeface.DEFAULT_BOLD);
+            } else {
+                lblName.setTypeface(Typeface.DEFAULT);
+            }
+        });
+        txtEmail.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                lblEmail.setTypeface(Typeface.DEFAULT_BOLD);
+            } else {
+                lblEmail.setTypeface(Typeface.DEFAULT);
+            }
+        });
+        txtPhonenumber.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                lblPhonenumber.setTypeface(Typeface.DEFAULT_BOLD);
+            } else {
+                lblPhonenumber.setTypeface(Typeface.DEFAULT);
+            }
+        });
+        txtAddress.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                lblAddress.setTypeface(Typeface.DEFAULT_BOLD);
+            } else {
+                lblAddress.setTypeface(Typeface.DEFAULT);
+            }
+        });
+        txtWeb.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                lblWeb.setTypeface(Typeface.DEFAULT_BOLD);
+            } else {
+                lblWeb.setTypeface(Typeface.DEFAULT);
+            }
+        });
+    }
+
+    private void avatarDefault() {
+        avatar = database.getDefaultAvatar();
+        imgAvatar.setImageResource(avatar.getImageResId());
+        imgAvatar.setTag(avatar.getImageResId());
+        lblAvatar.setText(avatar.getName());
+    }
+
+    private void changeImg() {
+        AvatarActivity.startForResult(this, RC_AVATAR, lblAvatar.getText().toString());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK && requestCode == RC_AVATAR) {
+            if (data != null && data.hasExtra(AvatarActivity.IMG_AVATAR)) {
+                avatar = data.getParcelableExtra(AvatarActivity.IMG_AVATAR);
+                imgAvatar.setImageResource(avatar.getImageResId());
+                imgAvatar.setTag(avatar.getImageResId());
+                lblAvatar.setText(avatar.getName());
+            }
+        }
     }
 
     // DO NOT TOUCH
@@ -34,8 +301,73 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private boolean validateName() {
+        if (txtName.getText().toString().isEmpty()) {
+            txtName.setError(getString(R.string.main_invalid_data));
+            lblName.setTextColor(getResources().getColor(R.color.colorError));
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateEmail() {
+        if (!ValidationUtils.isValidEmail(txtEmail.getText().toString())) {
+            txtEmail.setError(getString(R.string.main_invalid_data));
+            lblEmail.setTextColor(getResources().getColor(R.color.colorError));
+            imgEmail.setEnabled(false);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validatePhonenumber() {
+        if (!ValidationUtils.isValidPhone(txtPhonenumber.getText().toString())) {
+            txtPhonenumber.setError(getString(R.string.main_invalid_data));
+            lblPhonenumber.setTextColor(getResources().getColor(R.color.colorError));
+            imgPhonenumber.setEnabled(false);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateAddress() {
+        if (txtAddress.getText().toString().isEmpty()) {
+            txtAddress.setError(getString(R.string.main_invalid_data));
+            lblAddress.setTextColor(getResources().getColor(R.color.colorError));
+            imgAddress.setEnabled(false);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validateWeb() {
+        if (!ValidationUtils.isValidUrl(txtWeb.getText().toString())) {
+            txtWeb.setError(getString(R.string.main_invalid_data));
+            lblWeb.setTextColor(getResources().getColor(R.color.colorError));
+            imgWeb.setEnabled(false);
+            return false;
+        }
+        return true;
+    }
+    private boolean validate() {
+        boolean validName, validEmail, validPhonenumber, validAddress, validWeb;
+        validName = validateName();
+        validEmail = validateEmail();
+        validPhonenumber = validatePhonenumber();
+        validAddress = validateAddress();
+        validWeb = validateWeb();
+
+        return validName && validEmail && validPhonenumber && validAddress && validWeb;
+    }
+
     private void save() {
         // TODO
+        if (!validate()) {
+            SnackbarUtils.snackbar(lblName, getString(R.string.main_error_saving));
+        } else {
+            SnackbarUtils.snackbar(lblName, getString(R.string.main_saved_succesfully));
+        }
+        KeyboardUtils.hideSoftKeyboard(this);
     }
 
 }
