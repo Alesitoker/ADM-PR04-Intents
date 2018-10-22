@@ -56,7 +56,7 @@
         android:inputType="textEmailAddress"
         android:hint="@string/activity_main_txtEmail"
         android:imeOptions="actionNext"
-        android:nextFocusDown="@+id/txtPhonenumber"
+        android:nextFocusForward="@+id/txtPhonenumber"
         app:layout_constraintEnd_toStartOf="@+id/imgEmail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblEmail" />
@@ -95,6 +95,7 @@
         android:hint="@string/activity_main_txtPhonenumber"
         android:maxLength="9"
         android:imeOptions="actionNext"
+        android:nextFocusDown="@+id/txtAddress"
         app:layout_constraintEnd_toStartOf="@+id/imgPhonenumber"
         app:layout_constraintTop_toBottomOf="@+id/lblPhonenumber" />
 

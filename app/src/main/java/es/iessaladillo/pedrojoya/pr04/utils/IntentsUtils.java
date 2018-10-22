@@ -8,7 +8,7 @@ public class IntentsUtils {
     private IntentsUtils() {}
 
     public static Intent newEmail(String email) {
-        return new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", email, null));
+        return new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:"+ email));
     }
 
     public static Intent newDial(String phoneNumber) {
@@ -20,8 +20,13 @@ public class IntentsUtils {
     }
 
     public static Intent newWebSearch(String url) {
-        Intent intentWebSearch = new Intent(Intent.ACTION_WEB_SEARCH);
-        intentWebSearch.putExtra(SearchManager.QUERY, url);
+        Intent intentWebSearch = new Intent(Intent.ACTION_VIEW);
+        String head = "";
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            head = "https://";
+        }
+        intentWebSearch.setData(Uri.parse(head + url));
+//        intentWebSearch.putExtra(SearchManager.QUERY, url);
         return intentWebSearch;
     }
 }

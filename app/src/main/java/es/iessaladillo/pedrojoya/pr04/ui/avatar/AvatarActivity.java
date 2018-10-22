@@ -3,7 +3,6 @@ package es.iessaladillo.pedrojoya.pr04.ui.avatar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +17,7 @@ import es.iessaladillo.pedrojoya.pr04.utils.ResourcesUtils;
 
 public class AvatarActivity extends AppCompatActivity {
 
-    public static final String IMG_AVATAR = "IMG_AVATAR";
+    public static final String EXTRA_AVATAR = "EXTRA_AVATAR";
     private ImageView imgAvatar1;
     private ImageView imgAvatar2;
     private ImageView imgAvatar3;
@@ -52,8 +51,8 @@ public class AvatarActivity extends AppCompatActivity {
     private void getIntentData() {
         Intent intent = getIntent();
         if (intent != null) {
-            if (intent.hasExtra(IMG_AVATAR)) {
-                nameAvatar = intent.getStringExtra(IMG_AVATAR);
+            if (intent.hasExtra(EXTRA_AVATAR)) {
+                nameAvatar = intent.getStringExtra(EXTRA_AVATAR);
             }
         }
     }
@@ -122,21 +121,27 @@ public class AvatarActivity extends AppCompatActivity {
         if (nameAvatar.equals(lblAvatar1.getText().toString())) {
             selectImageView(imgAvatar1);
             imgAvatar1.setEnabled(false);
+            lblAvatar1.setEnabled(false);
         } else if (nameAvatar.equals(lblAvatar2.getText().toString())) {
             selectImageView(imgAvatar2);
             imgAvatar2.setEnabled(false);
+            lblAvatar2.setEnabled(false);
         } else if (nameAvatar.equals(lblAvatar3.getText().toString())) {
             selectImageView(imgAvatar3);
             imgAvatar3.setEnabled(false);
+            lblAvatar3.setEnabled(false);
         } else if (nameAvatar.equals(lblAvatar4.getText().toString())) {
             selectImageView(imgAvatar4);
             imgAvatar4.setEnabled(false);
+            lblAvatar4.setEnabled(false);
         } else if (nameAvatar.equals(lblAvatar5.getText().toString())) {
             selectImageView(imgAvatar5);
             imgAvatar5.setEnabled(false);
+            lblAvatar5.setEnabled(false);
         } else if (nameAvatar.equals(lblAvatar6.getText().toString())) {
             selectImageView(imgAvatar6);
             imgAvatar6.setEnabled(false);
+            lblAvatar6.setEnabled(false);
         }
     }
 
@@ -154,7 +159,7 @@ public class AvatarActivity extends AppCompatActivity {
 
     public static void startForResult(Activity activity, int requestCode, String nameAvatar) {
         Intent intent = new Intent(activity, AvatarActivity.class);
-        intent.putExtra(IMG_AVATAR, nameAvatar);
+        intent.putExtra(EXTRA_AVATAR, nameAvatar);
         activity.startActivityForResult(intent, requestCode);
     }
 
@@ -162,7 +167,7 @@ public class AvatarActivity extends AppCompatActivity {
         Intent result = new Intent();
         Avatar avatar = database.queryAvatar(database.queryAvatars().get(avatarid).getId());
 
-        result.putExtra(IMG_AVATAR, avatar);
+        result.putExtra(EXTRA_AVATAR, avatar);
         setResult(RESULT_OK, result);
         finish();
     }
