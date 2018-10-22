@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- TODO -->
     <TextView
         android:id="@+id/lblName"
         android:layout_width="wrap_content"
@@ -16,10 +15,10 @@
         android:layout_marginTop="@dimen/lbl_marginTop"
         android:labelFor="@+id/txtName"
         android:text="@string/activity_main_lblName"
-        android:textStyle="bold"
         android:textColor="@color/color_state_selector"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgAvatar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/txtName"
@@ -32,7 +31,8 @@
         android:imeOptions="actionNext"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblName" />
+        app:layout_constraintTop_toBottomOf="@+id/lblName"
+        tools:ignore="Autofill" />
 
     <TextView
         android:id="@+id/lblEmail"
@@ -59,7 +59,8 @@
         android:nextFocusForward="@+id/txtPhonenumber"
         app:layout_constraintEnd_toStartOf="@+id/imgEmail"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/lblEmail"
+        tools:ignore="Autofill"/>
 
     <ImageView
         android:id="@+id/imgEmail"
@@ -70,7 +71,8 @@
         android:tint="@color/color_state_selector"
         app:layout_constraintBottom_toBottomOf="@+id/txtEmail"
         app:layout_constraintEnd_toStartOf="@+id/txtPhonenumber"
-        app:layout_constraintTop_toTopOf="@+id/txtEmail" />
+        app:layout_constraintTop_toTopOf="@+id/txtEmail"
+        android:contentDescription="@string/description_imgEmail" />
 
     <TextView
         android:id="@+id/lblPhonenumber"
@@ -97,7 +99,8 @@
         android:imeOptions="actionNext"
         android:nextFocusDown="@+id/txtAddress"
         app:layout_constraintEnd_toStartOf="@+id/imgPhonenumber"
-        app:layout_constraintTop_toBottomOf="@+id/lblPhonenumber" />
+        app:layout_constraintTop_toBottomOf="@+id/lblPhonenumber"
+        tools:ignore="Autofill" />
 
     <ImageView
         android:id="@+id/imgPhonenumber"
@@ -108,7 +111,8 @@
         android:tint="@color/color_state_selector"
         app:layout_constraintBottom_toBottomOf="@+id/txtPhonenumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txtPhonenumber" />
+        app:layout_constraintTop_toTopOf="@+id/txtPhonenumber"
+        android:contentDescription="@string/description_imgPhonenumber"/>
 
     <TextView
         android:id="@+id/lblAddress"
@@ -134,7 +138,8 @@
         android:imeOptions="actionNext"
         app:layout_constraintEnd_toStartOf="@+id/imgAddress"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/lblAddress"
+        tools:ignore="Autofill" />
 
     <ImageView
         android:id="@+id/imgAddress"
@@ -145,7 +150,8 @@
         android:tint="@color/color_state_selector"
         app:layout_constraintBottom_toBottomOf="@+id/txtAddress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txtAddress" />
+        app:layout_constraintTop_toTopOf="@+id/txtAddress"
+        android:contentDescription="@string/description_imgAddress"/>
 
     <TextView
         android:id="@+id/lblWeb"
@@ -171,7 +177,8 @@
         android:imeOptions="actionDone"
         app:layout_constraintEnd_toStartOf="@+id/imgWeb"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblWeb" />
+        app:layout_constraintTop_toBottomOf="@+id/lblWeb"
+        tools:ignore="Autofill" />
 
     <ImageView
         android:id="@+id/imgWeb"
@@ -182,6 +189,7 @@
         android:tint="@color/color_state_selector"
         app:layout_constraintBottom_toBottomOf="@+id/txtWeb"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/txtWeb" />
+        app:layout_constraintTop_toTopOf="@+id/txtWeb"
+        android:contentDescription="@string/description_imgWeb" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

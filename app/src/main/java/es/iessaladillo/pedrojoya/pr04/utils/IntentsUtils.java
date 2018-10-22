@@ -1,6 +1,5 @@
 package es.iessaladillo.pedrojoya.pr04.utils;
 
-import android.app.SearchManager;
 import android.content.Intent;
 import android.net.Uri;
 
@@ -26,7 +25,6 @@ public class IntentsUtils {
             head = "https://";
         }
         intentWebSearch.setData(Uri.parse(head + url));
-//        intentWebSearch.putExtra(SearchManager.QUERY, url);
         return intentWebSearch;
     }
 }

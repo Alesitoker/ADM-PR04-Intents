@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- TODO: Include activity_main_profile -->
     <ImageView
         android:id="@+id/imgAvatar"
         android:layout_width="0dp"

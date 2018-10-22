@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.avatar.AvatarActivity">
 
-    <!-- TODO -->
     <ImageView
         android:id="@+id/imgAvatar1"
         android:layout_width="0dp"
@@ -18,7 +17,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/description_imgAvatar1" />
 
     <TextView
         android:id="@+id/lblAvatar1"
@@ -43,7 +43,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imgAvatar1"
         app:layout_constraintTop_toTopOf="parent"
-         />
+        android:contentDescription="@string/description_imgAvatar2" />
 
     <TextView
         android:id="@+id/lblAvatar2"
@@ -69,7 +69,7 @@
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgAvatar1"
-         />
+        android:contentDescription="@string/description_imgAvatar3" />
 
     <TextView
         android:id="@+id/lblAvatar3"
@@ -94,7 +94,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imgAvatar3"
         app:layout_constraintTop_toBottomOf="@+id/imgAvatar2"
-         />
+        android:contentDescription="@string/description_imgAvatar4" />
 
     <TextView
         android:id="@+id/lblAvatar4"
@@ -119,7 +119,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgAvatar3" />
+        app:layout_constraintTop_toBottomOf="@+id/imgAvatar3"
+        android:contentDescription="@string/description_imgAvatar5" />
 
     <TextView
         android:id="@+id/lblAvatar5"
@@ -133,9 +134,7 @@
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/imgAvatar5"
         app:layout_constraintEnd_toEndOf="@+id/imgAvatar5" />
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></LinearLayout>
+
     <ImageView
         android:id="@+id/imgAvatar6"
         android:layout_width="0dp"
@@ -145,7 +144,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/imgAvatar5"
-        app:layout_constraintTop_toBottomOf="@+id/imgAvatar4" />
+        app:layout_constraintTop_toBottomOf="@+id/imgAvatar4"
+        android:contentDescription="@string/description_imgAvatar6" />
 
     <TextView
         android:id="@+id/lblAvatar6"

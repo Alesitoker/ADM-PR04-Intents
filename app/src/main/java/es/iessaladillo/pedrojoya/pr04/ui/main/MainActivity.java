@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imgPhonenumber;
     private ImageView imgAddress;
     private ImageView imgWeb;
-    private Database database = Database.getInstance();
+    private final Database database = Database.getInstance();
     private final int RC_AVATAR = 12;
     private Avatar avatar;
 
@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // TODO
         initViews();
     }
 
@@ -127,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
-        KeyboardUtils.hideSoftKeyboard(this);
     }
 
     private void changeFocus() {
@@ -139,13 +137,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showAvatar(Avatar avatar) {
+        this.avatar = avatar;
         imgAvatar.setImageResource(avatar.getImageResId());
         imgAvatar.setTag(avatar.getImageResId());
         lblAvatar.setText(avatar.getName());
     }
 
     private void changeImg() {
-        AvatarActivity.startForResult(this, RC_AVATAR, lblAvatar.getText().toString());
+        AvatarActivity.startForResult(this, RC_AVATAR, avatar);
     }
 
     @Override
@@ -235,13 +234,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void save() {
-        // TODO
+        KeyboardUtils.hideSoftKeyboard(this);
         if (!validate()) {
             SnackbarUtils.snackbar(lblName, getString(R.string.main_error_saving));
         } else {
             SnackbarUtils.snackbar(lblName, getString(R.string.main_saved_succesfully));
         }
-        KeyboardUtils.hideSoftKeyboard(this);
     }
 
 }
