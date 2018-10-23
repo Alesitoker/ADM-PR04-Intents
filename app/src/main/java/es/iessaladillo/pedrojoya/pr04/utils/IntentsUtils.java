@@ -1,7 +1,12 @@
 package es.iessaladillo.pedrojoya.pr04.utils;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
+
+import java.util.List;
 
 public class IntentsUtils {
     private IntentsUtils() {}
@@ -22,9 +27,15 @@ public class IntentsUtils {
         Intent intentWebSearch = new Intent(Intent.ACTION_VIEW);
         String head = "";
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            head = "https://";
+            head = "http://";
         }
         intentWebSearch.setData(Uri.parse(head + url));
         return intentWebSearch;
+    }
+
+    public static boolean isAvailable(Context ctx, Intent intent) {
+        final PackageManager packageManager = ctx.getPackageManager();
+        List<ResolveInfo> appList = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        return appList.size() > 0;
     }
 }

@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent;
         if (validateWeb()) {
             intent = IntentsUtils.newWebSearch(txtWeb.getText().toString());
-            startActivity(intent);
+            sendIntent(intent);
         }
     }
 
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent;
         if (validateAddress()) {
             intent = IntentsUtils.newSearchInMap(txtAddress.getText().toString());
-            startActivity(intent);
+            sendIntent(intent);
         }
     }
 
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent;
         if (validatePhonenumber()) {
             intent = IntentsUtils.newDial(txtPhonenumber.getText().toString());
-            startActivity(intent);
+            sendIntent(intent);
         }
     }
 
@@ -114,7 +114,16 @@ public class MainActivity extends AppCompatActivity {
         Intent intent;
         if (validateEmail()) {
             intent = IntentsUtils.newEmail(txtEmail.getText().toString());
+            sendIntent(intent);
+        }
+    }
+
+    private void sendIntent(Intent intent) {
+        if (IntentsUtils.isAvailable(this, intent)) {
             startActivity(intent);
+        } else {
+            KeyboardUtils.hideSoftKeyboard(this);
+            SnackbarUtils.snackbar(imgWeb, "Can not find an application to perform this action");
         }
     }
 

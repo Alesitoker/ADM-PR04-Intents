@@ -34,46 +34,46 @@ public class TextViewUtils {
 
     public static void afterTextChanged(EditText text, TextView view, ImageView img, Context context) {
         text.addTextChangedListener(new TextWatcher() {
+            boolean validation;
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
             public void afterTextChanged(Editable s) {
-                if (text.getText().toString().isEmpty()) {
-                    text.setError(context.getString(R.string.main_invalid_data));
-                    view.setTextColor(context.getResources().getColor(R.color.colorError));
-                    img.setEnabled(false);
-                } else {
-                    view.setTextColor(context.getResources().getColor(R.color.colorBlack));
-                    img.setEnabled(true);
-                }
+                validation = !text.getText().toString().isEmpty();
+                statusChange(text, view, img, validation, context);
             }
         });
     }
 
+    private static void statusChange(EditText text, TextView view, ImageView img, boolean valid,Context context) {
+        if (!valid) {
+            text.setError(context.getString(R.string.main_invalid_data));
+            view.setEnabled(false);
+            img.setEnabled(false);
+        } else {
+            view.setEnabled(true);
+            img.setEnabled(true);
+
+        }
+    }
+
     public static void onTextChanged(EditText txt, TextView lbl, ImageView img, Context context) {
         txt.addTextChangedListener(new TextWatcher() {
-            boolean valid = false;
+            boolean validation = false;
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (R.id.txtEmail == txt.getId())
-                    valid = ValidationUtils.isValidEmail(txt.getText().toString());
+                    validation = ValidationUtils.isValidEmail(txt.getText().toString());
                  else if (R.id.txtPhonenumber == txt.getId())
-                    valid = ValidationUtils.isValidPhone(txt.getText().toString());
+                    validation = ValidationUtils.isValidPhone(txt.getText().toString());
                  else if (R.id.txtWeb == txt.getId())
-                     valid = ValidationUtils.isValidUrl(txt.getText().toString());
-                if (!valid) {
-                    txt.setError(context.getString(R.string.main_invalid_data));
-                    lbl.setTextColor(context.getResources().getColor(R.color.colorError));
-                    img.setEnabled(false);
-                } else {
-                    lbl.setTextColor(context.getResources().getColor(R.color.colorBlack));
-                    img.setEnabled(true);
-                }
+                    validation = ValidationUtils.isValidUrl(txt.getText().toString());
+                 statusChange(txt, lbl, img, validation, context);
             }
 
             @Override
