@@ -183,6 +183,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // ESTOS MÉTODOS validate SON PRÁCTICAMENTE EL MISMO. HAZ UN MÉTODO ÚNICO QUE RECIBA
+    // LOS PARÁMETROS NECESARIOS.
     private boolean validateName() {
         if (txtName.getText().toString().isEmpty()) {
             txtName.setError(getString(R.string.main_invalid_data));

@@ -137,6 +137,8 @@ public class AvatarActivity extends AppCompatActivity {
 
     private void selectAvatar(ImageView imgAvatar1, TextView lblAvatar1) {
         selectImageView(imgAvatar1);
+        // AL DESHABILITAR EL ACTUAL EL USUARIO NO PUEDE VOLVER A SELECCIONAR EL QUE YA
+        // HAY. POR ESO HAY DOS TEST QUE NO LOS PASA.
         imgAvatar1.setEnabled(false);
         lblAvatar1.setEnabled(false);
     }

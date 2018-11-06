@@ -352,13 +352,13 @@ public class MainActivityTest {
     @Test
     public void shouldPhonenumberEditTextGoForwardWhenImeOptionsClicked() {
         onView(withId(R.id.txtPhonenumber)).perform(click(), typeText("66666666"),
-                pressImeActionButton());
+                pressImeActionButton(), closeSoftKeyboard());
         onView(withId(R.id.txtAddress)).check(matches(hasFocus()));
     }
 
     @Test
     public void shouldAddressEditTextGoForwardWhenImeOptionsClicked() {
-        onView(withId(R.id.txtAddress)).perform(click(), typeText("test"), pressImeActionButton());
+        onView(withId(R.id.txtAddress)).perform(click(), typeText("test"), pressImeActionButton(), closeSoftKeyboard());
         onView(withId(R.id.txtWeb)).perform(closeSoftKeyboard()).check(matches(hasFocus()));
     }
 
